@@ -6,11 +6,18 @@ const App = () => {
   
   return (
     <div>
+      
+      {loggedIn && (
+      <div>
       <p>WE GOT THIS!</p>
-      {/* loggedIn ? loginpage:querypage */}
-      {loggedIn && <Login setLoggedIn={setLoggedIn}/>}
+      <Login setLoggedIn={setLoggedIn}/>
+      </div>
+      )}
+      
     </div>
   );
 };
 
 export default App;
+
+

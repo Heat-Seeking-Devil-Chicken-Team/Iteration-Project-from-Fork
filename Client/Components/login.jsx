@@ -24,11 +24,14 @@ export default function Login(props) {
         'Content-type': 'application/json; charset=UTF-8'
       }
     })
-    .then(data => data.json())
-    .then(data => console.log('verification result', data))
-
-    .catch();
-
+    .then(data => { data.json() 
+       })
+    .then(data => {
+      console.log('verification result', data)
+      
+  })
+    .catch(err => console.log('Error verifying user'));
+    setLoggedIn(false)
     // const name = document.getElementById('userName');
     // console.log(name.value);
     event.preventDefault();

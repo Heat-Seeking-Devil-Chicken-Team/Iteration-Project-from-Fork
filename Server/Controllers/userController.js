@@ -10,7 +10,7 @@ userController.verifyUser = async (req, res, next) => {
   // deconstruct the req body to get user and password
   // console.log('req.body', req.body);
   const { username, password } = req.body;
-
+console.log(req.body)
   const query = `select password from user_info where user_name = '${username}';`;
   // get hashed password and make query to db and see if it matches. If it does then redirect
   // the user to homepage
