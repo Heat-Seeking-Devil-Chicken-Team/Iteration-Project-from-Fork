@@ -61,6 +61,7 @@ export default function Login(props) {
               onChange={handlePasswordChange}
             />
             <button type="submit" id="submitBtn">Login</button>
+            <div>Don't have an account? <a>Signup</a></div>
             </div>
           </form>
         </div>
