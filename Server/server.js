@@ -22,9 +22,11 @@ app.get('/', (req, res) => {
 
 // still need a place to redirect after successful login
 app.post('/login', userController.verifyUser, (req, res) => {
+  //console.log('result in post on server', res.locals.result)
   if (res.locals.result === true) {
     // return res.redirect('/');
-    return res.send(res.locals.result);
+    console.log('hello')
+    return res.status(200).json(res.locals.result);
   }
 });
 
