@@ -8,7 +8,7 @@ const workFactor = 10;
 /* controller for verifying user login */
 userController.verifyUser = async (req, res, next) => {
   // deconstruct the req body to get user and password
-  // console.log('req.body', req.body);
+  //console.log('req.body', req.body);
   const { username, password } = req.body;
 
   const query = `select password from user_info where user_name = '${username}';`;
@@ -20,7 +20,7 @@ userController.verifyUser = async (req, res, next) => {
       return next(err);
     }
     bcrypt.compare(password, result.rows[0]['password']).then((result) => {
-      // console.log(result);
+      //console.log('result in bcrypt', result);
       if (result) {
         res.locals.result = true;
         return next();
