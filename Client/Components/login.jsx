@@ -1,10 +1,13 @@
-import React, {useState} from 'react';
-// import styles from '../styles.scss';
+import React, {useState, useEffect} from 'react';
+import axios from 'axios';
+import styles from '../styles.scss';
 
 export default function Login(props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [welcome, setWelcome] = useState('Dont have an account? ');
   const {setLoggedIn} = props;
+  const {loggedIn} = props;
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -14,8 +17,23 @@ export default function Login(props) {
     setPassword(event.target.value);
   }
 
+  
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("user");
+    if (loggedInUser) {
+      try {
+        const foundUser = loggedInUser;
+        setWelcome(`Welcome back ${loggedInUser}! `);
+      } catch (error) {
+        console.error("Error parsing JSON:", error);
+      }
+    }
+  }, []);
+
+  
+
   const clickHandler = (event) => {
-    const user = { username, password };
+  
     event.preventDefault();
     fetch('/login', {
       method: 'POST',
@@ -30,9 +48,14 @@ export default function Login(props) {
     .then(data =>  data.json())
     .then(data => {
       console.log('verification result', data);
-      // !!!! use conditional to check response an then call setLoggedIn
-      setLoggedIn(false);
+      return data
     })
+    .then(data => { 
+          console.log(data.user)
+          localStorage.setItem('user', data.user);
+          console.log(localStorage);
+          setLoggedIn(!loggedIn);
+        })
 
     .catch(err => window.alert('Incorrect username or password'));
 
@@ -61,7 +84,7 @@ export default function Login(props) {
               onChange={handlePasswordChange}
             />
             <button type="submit" id="submitBtn">Login</button>
-            <div>Don't have an account? <a>Signup</a></div>
+            <div>{welcome}<a>Signup</a></div>
             </div>
           </form>
         </div>
@@ -69,18 +92,4 @@ export default function Login(props) {
     );
 }
 
-/* 
 
-const user = { username, password}
-
-
-setUser(data);
-localStorage.setItem('user', data)
-
-
-*/
-
- // .then(data => { 
-      //   setUsername(data);
-      //   localStorage.setItem('user', data);
-      // })
