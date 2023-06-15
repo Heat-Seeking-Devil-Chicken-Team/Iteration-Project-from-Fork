@@ -5,9 +5,12 @@ import styles from '../styles.scss';
 export default function Login(props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [welcome, setWelcome] = useState('Dont have an account? ');
+  
   const {setLoggedIn} = props;
   const {loggedIn} = props;
+  const {signUp} = props;
+  const {setSignUp} = props;
+  const {welcome, setWelcome} = props
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -17,7 +20,6 @@ export default function Login(props) {
     setPassword(event.target.value);
   }
 
-  
   useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
     if (loggedInUser) {
@@ -30,9 +32,25 @@ export default function Login(props) {
     }
   }, []);
 
+  const handleClick = (event) => {
+    event.preventDefault();
+    setWelcome('Please enter a new username and password');
+    //setSignUp(true)
+    //changePage()
+    console.log(welcome);
+    console.log(username, password)
+    return setSignUp(true)
+    //console.log('youre at the signup page')
+  }
+
+  
   
 
   const clickHandler = (event) => {
+
+    if(username == "" || password == ""){
+      return window.alert('Please enter a username and password.')
+    }
   
     event.preventDefault();
     fetch('/login', {
@@ -84,9 +102,9 @@ export default function Login(props) {
               onChange={handlePasswordChange}
             />
             <button type="submit" id="submitBtn">Login</button>
-            <div>{welcome}<a>Signup</a></div>
+            <div>{welcome}<button onClick={handleClick}>Signup</button></div>
             </div>
-          </form>
+          </form> 
         </div>
       </div>
     );
