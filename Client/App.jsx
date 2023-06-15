@@ -4,22 +4,23 @@ import MainPage from './Components/MainPage.jsx'
 
 
 const App = () => {
-  const [loggedIn, setLoggedIn] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
   
   return (
 
     <div className="mainPage">
+      
       {/* loggedIn ? loginpage:querypage */}
       {loggedIn && (
         <div className="introPage">
-          <div className='navBar'></div>
+          
             {/* <h1 className='loginHeader'>Welcome to Twerp</h1> */}
           <Login setLoggedIn={setLoggedIn}/>
         </div>
       )}
 
       {!loggedIn && (
-          <MainPage/>
+            <MainPage/>
       )}
     </div>
   );
