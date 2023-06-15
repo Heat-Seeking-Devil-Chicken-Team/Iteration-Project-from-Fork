@@ -1,38 +1,20 @@
 import React, {useState} from 'react';
 import { AiFillFrown } from 'react-icons/ai';
+import Modal from './modal.jsx';
 
 export default function MainPage(props) {
-    const [results, setResults] = useState([]);
-    // const [value, setValue] = useState('');
+const [searchOpen, setSearchOpen] = useState(false);
+const [searchResult, changeSearchResult] = useState({});
+const [itemName, changeSearchItem] = useState('');
+//stretch feature to add a table that dynamically changes
+const [table, setTable] = useState([]);
 
-    const handleChange = (event) => {
-        console.log('search item has been entered')
-        event.preventDefault();
-        const request = {itemName: 'bike', quantity: '3'}
-        // setValue(event.target.value);
-        // console.log(event.target.value);
-
-        fetch('/db/quote', {
-            method: 'POST',
-            body: JSON.stringify(request),
-            headers: {
-              'Content-type': 'application/json; charset=UTF-8'
-            }
-        }).then(data => {
-            setResults(data);
-            console.log(data);
-        }).catch((err) => console.log)
-    }
-
-
-   
-
-    // const resultItems = [];
-    // for (let i = 0; i < results.length; i++) {
-    //     resultItems.push()
-    // }
+function toggleModal() {
+    setSearchOpen(true);
+};
 
 return (
+    <>
     <div className='mainContainer'>
         <div className='navBar'></div>
         <header className="toolBar">
@@ -48,30 +30,45 @@ return (
             </nav>
             </header>
         <main className = 'buttonContainer'> 
-            <button id = 'searchBtn' onClick={handleChange}>Search</button>
+            <button onClick={ toggleModal } id = 'searchBtn' >Search</button>
+            {searchOpen && <Modal searchResult={searchResult} changeSearchResult={changeSearchResult} searchOpen={searchOpen} setSearchOpen={setSearchOpen}
+            itemName = {itemName} changeSearchItem = {changeSearchItem}/>}
             <button id = 'updateBtn'>Update Quantity</button>
         </main>
-        <main className = 'contentContainer'> Main Content goes in here</main>
+        <main className = 'contentContainer'> 
+            {!searchOpen && (<h1 id='resultTable'>{itemName}</h1>)}
+                <table className='table'>
+                    <tr id='tableRow1'>
+                        <th className='hRC1'>Cost</th>
+                        <th className='hRC2'>Shipping Time</th>
+                        <th className='hRC3'>Price</th>
+                    </tr>
+                    <tr id='tableRow2'>
+                        <th className='rRC1'>${searchResult.cost}</th>
+                        <th className='rRC2'>{searchResult.shipTime}</th>
+                        <th className='rRC3'>${searchResult.price}</th>
+                    </tr>
+                </table>
+        </main>
     </div>
+    </>
     
 )
 }
 
 
+/* 
+<table>
+    <tr>
+        <th class='headerRow'>Cost</th>
+        <th class='headerRow'>Shipping Time</th>
+        <th class='headerRow'><Price</th>
+    </tr>
+    <tr>
+        <th class='resultRow'>{searchResult.cost}</th>
+        <th class='resultRow'>{searchResult.shipTime}</th>
+        <th class='resultRow'>{searchResult.price}</th>
+    </tr>
+</table>
 
-// async function search () {
-//     try {
-//     // ${quote} template literal will send the actual quote/query info to the api. Removes the need for a POST request 
-//      // const response = await fetch(`/db/${value}`);
-//         const response = await fetch(`/db`);
-//         const data = await response.json();
-//         console.log(data);
-//         setResults(data);
-//     } catch (err) {
-//         console.log('Error, query not syncing');
-//     }
-// }
-// useEffect(() => {
-//     search();
-// }, [request]);
-
+*/
