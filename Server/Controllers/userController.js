@@ -22,7 +22,8 @@ console.log(req.body)
     bcrypt.compare(password, result.rows[0]['password']).then((result) => {
       //console.log('result in bcrypt', result);
       if (result) {
-        res.locals.result = true;
+        res.locals.result = {verified: true, user: username, pass: password}
+      
         return next();
       } else {
         return res.redirect('/login');
@@ -30,5 +31,23 @@ console.log(req.body)
     });
   });
 };
+
+
+
+userController.makeUser = (req, res, next) => {
+  const {username, password} = req.body
+  console.log('reqbody', req.body)
+  // A SELECT query is required after the INSERT query to actually return the new user
+  const newUser = `INSERT INTO user_info (_id, user_name, password) VALUES (nextval(\'user_info_sequence\'),'${username}' ,'${password}');
+  SELECT * FROM user_info WHERE username = '${username}';`
+  db.query(newUser)
+    .then(data => {
+      // console.log('data in makeUser', data)
+      const { rows } = data[1]
+      // console.log('From Database: ', rows)
+      res.locals.data = rows
+      return next()
+    })
+}
 
 module.exports = userController;

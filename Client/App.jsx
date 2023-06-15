@@ -15,7 +15,7 @@ const App = () => {
         <div className="introPage">
           
             {/* <h1 className='loginHeader'>Welcome to Twerp</h1> */}
-          <Login setLoggedIn={setLoggedIn}/>
+          <Login setLoggedIn={setLoggedIn} loggedIn={loggedIn}/>
         </div>
       )}
 
